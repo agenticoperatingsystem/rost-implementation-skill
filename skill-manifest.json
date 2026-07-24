@@ -40,7 +40,7 @@
     },
     {
       "path": "references/mode-behavior.md",
-      "sha256": "b8eda93057fd1e607716a3cadc5fd668b671679beb24a6d461ad07139462dee1"
+      "sha256": "7a6623aad6afb1566263616250dd77c9da7837c75b144988aa47138bbc7634a7"
     },
     {
       "path": "references/oauth-handoff.md",
@@ -48,7 +48,7 @@
     },
     {
       "path": "references/conversation-grant-handoff.md",
-      "sha256": "ec2b89f150131efa2c6a322193822979c18b5e6c5143febb57db84adaf27d9ca"
+      "sha256": "cc4166e242e9112bed6eeb5edb67d0a48a88b234ba8db38ae94edda0231ab66d"
     },
     {
       "path": "references/final-report.md",

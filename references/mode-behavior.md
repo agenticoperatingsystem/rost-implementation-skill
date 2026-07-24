@@ -32,7 +32,7 @@ What Full Operator mode will mean when available:
 
 ### Current availability
 
-Full Operator external-effect handoff is not yet available. It ships with DER-2168. Until then:
+Full Operator external-effect handoff is not yet available. It ships in a future ROST release. Until then:
 
 - The Skill selects Full Operator mode only through live capability discovery (`rost command list`, `rost docs`) in the installed CLI.
 - There is currently no endpoint to call for Full Operator external effects.
