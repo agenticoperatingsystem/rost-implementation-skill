@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "name": "rost-implementation-skill",
+  "version": "v0.1.0-preview",
+  "repository": {
+    "owner": "agenticoperatingsystem",
+    "name": "rost-implementation-skill"
+  },
+  "protocol": {
+    "skill": 1,
+    "minCli": "0.7.115",
+    "maxCli": null
+  },
+  "supportedClients": [
+    "claude-code",
+    "codex",
+    "cursor"
+  ],
+  "doctrine": {
+    "guide": "rost-implementation-method",
+    "version": "2026-07-23.2"
+  },
+  "changelogUrl": "https://github.com/agenticoperatingsystem/rost-implementation-skill/releases",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "sha256": "feb341d2cb95a9ae445c000c7c9ebd5833eab67291db3dff3ebecfccb59254a4"
+    },
+    {
+      "path": "README.md",
+      "sha256": "817b8e389d3164a54b9486566696b0f31ef682886c4dd932a43775a5499edc57"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "07f4f0a506e2c740fcfeffe84ffb8ec1b2da6702789dcba9f9b04806f04cc8ac"
+    },
+    {
+      "path": "references/execution-loop.md",
+      "sha256": "ed031b8675364c042d5225311d6a8952d5beaec62b427de818b28f44c60c69ac"
+    },
+    {
+      "path": "references/mode-behavior.md",
+      "sha256": "b8eda93057fd1e607716a3cadc5fd668b671679beb24a6d461ad07139462dee1"
+    },
+    {
+      "path": "references/oauth-handoff.md",
+      "sha256": "54e5b383e094f115ff38c2aa275597ed628d51452a61496f8267c1d895db8897"
+    },
+    {
+      "path": "references/conversation-grant-handoff.md",
+      "sha256": "ec2b89f150131efa2c6a322193822979c18b5e6c5143febb57db84adaf27d9ca"
+    },
+    {
+      "path": "references/final-report.md",
+      "sha256": "e573e53f24eda8079414c354ec102174721eaa5249a83d65219635433ceb3f1b"
+    },
+    {
+      "path": "scripts/check-install.sh",
+      "sha256": "030cfb0726f34b100077005388e85ba521fa54486072d936c450b6119e917ddf"
+    },
+    {
+      "path": ".github/workflows/validate.yml",
+      "sha256": "1ab10447244a0ce5a6517eda5d9b08be46db6fb031771e0f719a4b897f963d86"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Required files exist
+        run: |
+          required="SKILL.md README.md LICENSE skill-manifest.json references/execution-loop.md references/mode-behavior.md references/oauth-handoff.md references/conversation-grant-handoff.md references/final-report.md scripts/check-install.sh"
+          for f in $required; do
+            if [ ! -f "$f" ]; then
+              echo "FAIL: missing required file $f"
+              exit 1
+            fi
+          done
+          echo "PASS: required files exist"
+
+      - name: Validate manifest checksums
+        run: |
+          node -e '
+            const fs = require("fs");
+            const crypto = require("crypto");
+            const manifest = JSON.parse(fs.readFileSync("skill-manifest.json", "utf8"));
+            const files = manifest.files || [];
+            if (files.length === 0) {
+              console.log("PASS: checksums pending (files array empty)");
+              process.exit(0);
+            }
+            let ok = true;
+            for (const entry of files) {
+              const data = fs.readFileSync(entry.path);
+              const hash = crypto.createHash("sha256").update(data).digest("hex");
+              if (hash !== entry.sha256) {
+                console.error("FAIL: checksum mismatch for " + entry.path + ": expected " + entry.sha256 + ", got " + hash);
+                ok = false;
+              } else {
+                console.log("PASS: " + entry.path + " checksum ok");
+              }
+            }
+            process.exit(ok ? 0 : 1);
+          '
+
+      - name: No secret material
+        run: |
+          matches=$(grep -R -l -E --exclude-dir=.git --exclude=".github/workflows/validate.yml" "BEGIN OPENSSH PRIVATE KEY|BEGIN PRIVATE KEY|BEGIN PGP PRIVATE KEY BLOCK|BEGIN RSA PRIVATE KEY" . || true)
+          if [ -n "$matches" ]; then
+            echo "$matches"
+            echo "FAIL: secret material detected"
+            exit 1
+          fi
+          echo "PASS: no secret material"
+
+      - name: SKILL.md frontmatter
+        run: |
+          if ! head -n 5 SKILL.md | grep -q "^name:"; then
+            echo "FAIL: SKILL.md frontmatter missing name"
+            exit 1
+          fi
+          if ! head -n 5 SKILL.md | grep -q "^description:"; then
+            echo "FAIL: SKILL.md frontmatter missing description"
+            exit 1
+          fi
+          echo "PASS: SKILL.md frontmatter"
+
+      - name: check-install.sh syntax
+        run: |
+          sh -n scripts/check-install.sh
+          echo "PASS: check-install.sh syntax"
