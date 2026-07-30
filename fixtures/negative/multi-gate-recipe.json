@@ -1,0 +1,17 @@
+{
+  "name": "legacy-multi-gate-recipe",
+  "expect": "invalid",
+  "description": "The retired per-Seat/per-Charter/per-agent multi-gate onboarding recipe with a client-side loop over individual confirmation approvals. Must be rejected.",
+  "steps": [
+    "install_verify_cli",
+    "obtain_implementation_access",
+    "seat_create_per_seat",
+    "charter_activate_per_charter",
+    "agent_go_live_per_agent",
+    "confirmation_approve_loop",
+    "report_evidence_costs_warnings"
+  ],
+  "approvals": {
+    "per_entity_confirmations": 14
+  }
+}

@@ -42,12 +42,19 @@ Once installed, the agent loads `SKILL.md` from this package. See [SKILL.md](SKI
 
 ## References
 
-- [SKILL.md](SKILL.md) — compact orchestrator
-- [references/execution-loop.md](references/execution-loop.md) — regular-mode execution loop
-- [references/mode-behavior.md](references/mode-behavior.md) — regular and Full Operator mode behavior
+- [SKILL.md](SKILL.md) — compact orchestrator with the canonical fifteen-step composite flow
+- [references/execution-loop.md](references/execution-loop.md) — composite execution loop (source ingest, one setup approval, receipt verification, rehearsal, one activation approval, completion)
+- [references/mode-behavior.md](references/mode-behavior.md) — regular implementation-bootstrap and Full Operator mode behavior
 - [references/oauth-handoff.md](references/oauth-handoff.md) — OAuth and external-provider handoff
 - [references/conversation-grant-handoff.md](references/conversation-grant-handoff.md) — external-effect handoff status
-- [references/final-report.md](references/final-report.md) — Full Operator implementation report
+- [references/final-report.md](references/final-report.md) — mandatory final implementation report
+
+## Validation
+
+- `node scripts/validate-fixtures.mjs` — validates the deterministic flow fixtures in `fixtures/` (positive fixtures must validate; negative fixtures, including the retired multi-gate onboarding recipe, must be rejected) and checks that SKILL.md still carries the canonical steps and hard rules.
+- `node scripts/update-manifest.mjs` — regenerates the per-file sha256 entries in `skill-manifest.json` after any content change.
+
+CI (`.github/workflows/validate.yml`) runs the fixture validation and verifies the manifest checksums; regeneration is a local step before committing. The minimum compatible CLI version has a single authoritative location: `protocol.minCli` in `skill-manifest.json`.
 
 ## Manual fallback
 

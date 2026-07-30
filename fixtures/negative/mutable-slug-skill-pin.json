@@ -1,0 +1,31 @@
+{
+  "name": "mutable-slug-skill-pin",
+  "expect": "invalid",
+  "description": "A canonical flow whose setup plan references a published Skill by mutable slug alone, without a pinned version ID and content hash. Must be rejected.",
+  "steps": [
+    "inspect_local_business_files",
+    "install_verify_cli",
+    "obtain_implementation_access",
+    "discover_schemas_references_capabilities",
+    "read_onboarding_resume_state",
+    "source_ingest",
+    "construct_validate_setup_plan",
+    "stage_setup_one_url",
+    "verify_setup_receipt",
+    "rehearse_read_terminal_evidence",
+    "activate_once_one_url",
+    "verify_activation",
+    "bounded_manual_acceptance",
+    "report_evidence_costs_warnings",
+    "complete_or_abandon_access"
+  ],
+  "approvals": {
+    "setup": 1,
+    "activation": 1
+  },
+  "skill_references": [
+    {
+      "slug": "sales-pipeline"
+    }
+  ]
+}
