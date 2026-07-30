@@ -24,7 +24,7 @@
   "files": [
     {
       "path": ".github/workflows/validate.yml",
-      "sha256": "d826a243fdd0b7a72594266c5fe6f4d5bfd6df342c50ccb203140ca32693d4e3"
+      "sha256": "489ca821befce2b5f450e7c9b9316b5088bf77bf0f915b410325c9f13290b723"
     },
     {
       "path": "LICENSE",

@@ -59,7 +59,7 @@ jobs:
 
       - name: No secret material
         run: |
-          matches=$(grep -R -l -E --exclude-dir=.git --exclude=".github/workflows/validate.yml" "BEGIN OPENSSH PRIVATE KEY|BEGIN PRIVATE KEY|BEGIN PGP PRIVATE KEY BLOCK|BEGIN RSA PRIVATE KEY" . || true)
+          matches=$(grep -R -l -E --exclude-dir=.git --exclude="validate.yml" "BEGIN OPENSSH PRIVATE KEY|BEGIN PRIVATE KEY|BEGIN PGP PRIVATE KEY BLOCK|BEGIN RSA PRIVATE KEY" . || true)
           if [ -n "$matches" ]; then
             echo "$matches"
             echo "FAIL: secret material detected"
