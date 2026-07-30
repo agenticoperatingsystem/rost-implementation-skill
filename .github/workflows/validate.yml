@@ -21,14 +21,16 @@ jobs:
 
       - name: Required files exist
         run: |
-          required="SKILL.md README.md LICENSE skill-manifest.json references/execution-loop.md references/mode-behavior.md references/oauth-handoff.md references/conversation-grant-handoff.md references/final-report.md scripts/check-install.sh"
-          for f in $required; do
-            if [ ! -f "$f" ]; then
-              echo "FAIL: missing required file $f"
-              exit 1
-            fi
-          done
-          echo "PASS: required files exist"
+          node -e '
+            const fs = require("fs");
+            const manifest = JSON.parse(fs.readFileSync("skill-manifest.json", "utf8"));
+            const missing = (manifest.files || []).map((f) => f.path).filter((p) => !fs.existsSync(p));
+            if (missing.length > 0) {
+              console.error("FAIL: missing manifest-listed files: " + missing.join(", "));
+              process.exit(1);
+            }
+            console.log("PASS: skill-manifest.json and all " + manifest.files.length + " listed files exist");
+          '
 
       - name: Validate manifest checksums
         run: |
@@ -81,3 +83,6 @@ jobs:
         run: |
           sh -n scripts/check-install.sh
           echo "PASS: check-install.sh syntax"
+
+      - name: Canonical-flow fixtures
+        run: node scripts/validate-fixtures.mjs

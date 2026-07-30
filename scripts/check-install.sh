@@ -16,7 +16,8 @@ case "$client" in
   *) usage ;;
 esac
 
-min_version="0.7.115"
+script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+manifest="$script_dir/../skill-manifest.json"
 
 version_ge() {
   awk -v a="$1" -v b="$2" 'BEGIN {
@@ -59,7 +60,18 @@ else
   fi
 fi
 
-# 3. CLI version >= min_version
+# 3. CLI version >= protocol.minCli from skill-manifest.json (the single
+#    authoritative minimum-CLI location for this package)
+if [ ! -f "$manifest" ]; then
+  echo "FAIL: skill-manifest.json not found at $manifest; run from a full checkout"
+  exit 1
+fi
+min_version=$(node -e 'process.stdout.write(JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")).protocol.minCli)' "$manifest")
+if [ -z "$min_version" ]; then
+  echo "FAIL: could not read protocol.minCli from $manifest"
+  exit 1
+fi
+
 cli_version=$($rost_cmd --version | head -n1 | awk '{print $NF}')
 if [ -z "$cli_version" ]; then
   echo "FAIL: could not determine CLI version"
