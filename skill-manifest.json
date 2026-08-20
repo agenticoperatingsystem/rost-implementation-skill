@@ -8,7 +8,7 @@
   },
   "protocol": {
     "skill": 1,
-    "minCli": "0.7.124",
+    "minCli": "0.7.174",
     "maxCli": null
   },
   "supportedClients": [
