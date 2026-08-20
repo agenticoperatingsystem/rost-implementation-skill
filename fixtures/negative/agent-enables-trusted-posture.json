@@ -1,8 +1,8 @@
 {
-  "name": "mutable-slug-skill-pin",
+  "name": "agent-enables-trusted-posture",
   "expect": "invalid",
-  "rejected_because": "unpinned_skill_reference:sales-pipeline",
-  "description": "A canonical flow whose setup plan references a published Skill by mutable slug alone, without a pinned version ID and content hash. Must be rejected, and must be rejected for THAT reason: everything else about the flow is correct.",
+  "rejected_because": "forbidden_step:aicos_trusted_beta_enable",
+  "description": "An otherwise canonical run in which the agent turns the Trusted posture on for the owner instead of preparing the review and handing it over. The posture commands are owner-only and human-only: agents recommend, humans decide. Declared as forbidden_step and NOT as unknown_step on purpose \u2014 an unrecognised id is a typo, an id matching the forbidden patterns is an authority violation, and deleting the trusted_beta patterns must turn this fixture red rather than leave it green on the typo error.",
   "steps": [
     "inspect_local_business_files",
     "install_verify_cli",
@@ -17,6 +17,7 @@
     "rehearse_read_terminal_evidence",
     "activate_once_one_url",
     "verify_activation",
+    "aicos_trusted_beta_enable",
     "bounded_manual_acceptance",
     "report_evidence_costs_warnings",
     "complete_or_abandon_access"
@@ -31,9 +32,10 @@
     "fallback_reason": null,
     "reported_to_owner": true
   },
-  "skill_references": [
+  "signals": [
     {
-      "slug": "sales-pipeline"
+      "name": "Weekly revenue",
+      "posture": "manual"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {
   "name": "legacy-multi-gate-recipe",
   "expect": "invalid",
+  "rejected_because": "forbidden_step:seat_create_per_seat",
   "description": "The retired per-Seat/per-Charter/per-agent multi-gate onboarding recipe with a client-side loop over individual confirmation approvals. Must be rejected.",
   "steps": [
     "install_verify_cli",
@@ -13,5 +14,11 @@
   ],
   "approvals": {
     "per_entity_confirmations": 14
+  },
+  "aicos_lane": {
+    "requested": "cloud",
+    "effective": "cloud",
+    "fallback_reason": null,
+    "reported_to_owner": true
   }
 }

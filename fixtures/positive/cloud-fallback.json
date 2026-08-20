@@ -1,8 +1,7 @@
 {
-  "name": "mutable-slug-skill-pin",
-  "expect": "invalid",
-  "rejected_because": "unpinned_skill_reference:sales-pipeline",
-  "description": "A canonical flow whose setup plan references a published Skill by mutable slug alone, without a pinned version ID and content hash. Must be rejected, and must be rejected for THAT reason: everything else about the flow is correct.",
+  "name": "visible-cloud-fallback",
+  "expect": "valid",
+  "description": "Runner setup was prepared but no compatible runner was online at approval time. The one setup approval configures the Cloud lane, the receipt names the typed reason, the Runner preference is preserved, and the run reports all of it. A visible fallback is a VALID outcome — the silent one is the defect.",
   "steps": [
     "inspect_local_business_files",
     "install_verify_cli",
@@ -26,14 +25,12 @@
     "activation": 1
   },
   "aicos_lane": {
-    "requested": "cloud",
+    "requested": "runner",
     "effective": "cloud",
-    "fallback_reason": null,
+    "fallback_reason": "runner_not_ready",
     "reported_to_owner": true
   },
-  "skill_references": [
-    {
-      "slug": "sales-pipeline"
-    }
+  "signals": [
+    { "name": "Weekly revenue", "posture": "not_connected" }
   ]
 }

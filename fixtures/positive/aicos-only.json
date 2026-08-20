@@ -1,8 +1,7 @@
 {
-  "name": "mutable-slug-skill-pin",
-  "expect": "invalid",
-  "rejected_because": "unpinned_skill_reference:sales-pipeline",
-  "description": "A canonical flow whose setup plan references a published Skill by mutable slug alone, without a pinned version ID and content hash. Must be rejected, and must be rejected for THAT reason: everything else about the flow is correct.",
+  "name": "aicos-only-no-launch",
+  "expect": "valid",
+  "description": "The shortest complete run: the owner takes the one setup approval and stops. The company operates, the AI Chief of Staff is configured, the agents the plan left in draft stay draft, and their launch is recorded as a named later action. Fourteen steps, one approval, zero launch approvals — and this is a COMPLETE outcome, not a truncated one.",
   "steps": [
     "inspect_local_business_files",
     "install_verify_cli",
@@ -15,15 +14,13 @@
     "stage_setup_one_url",
     "verify_setup_receipt",
     "rehearse_read_terminal_evidence",
-    "activate_once_one_url",
-    "verify_activation",
     "bounded_manual_acceptance",
     "report_evidence_costs_warnings",
     "complete_or_abandon_access"
   ],
   "approvals": {
     "setup": 1,
-    "activation": 1
+    "activation": 0
   },
   "aicos_lane": {
     "requested": "cloud",
@@ -31,9 +28,7 @@
     "fallback_reason": null,
     "reported_to_owner": true
   },
-  "skill_references": [
-    {
-      "slug": "sales-pipeline"
-    }
+  "signals": [
+    { "name": "Cash runway", "posture": "manual" }
   ]
 }

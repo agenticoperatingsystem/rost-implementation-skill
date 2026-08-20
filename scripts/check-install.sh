@@ -93,7 +93,12 @@ echo "PASS: installer completed"
 # 5. Confirm installed SKILL.md
 case "$client" in
   claude-code)
-    skill_dir="${CLAUDE_HOME:-$HOME/.claude}/skills/rost-implementation"
+    # CLAUDE_CONFIG_DIR is the variable Claude Code itself reads, and the one the
+    # installer resolves against. CLAUDE_HOME is NOT a fallback: the installer
+    # fails on CLAUDE_HOME-without-CLAUDE_CONFIG_DIR with a migration
+    # instruction, so looking there would send this check to a directory the
+    # installer deliberately refuses to write.
+    skill_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills/rost-implementation"
     ;;
   codex)
     skill_dir="${CODEX_HOME:-$HOME/.codex}/skills/rost-implementation"

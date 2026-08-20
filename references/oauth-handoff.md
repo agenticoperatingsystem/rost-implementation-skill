@@ -2,6 +2,12 @@
 
 Provider OAuth is a human action in every mode. The agent never completes an OAuth consent flow on the owner's behalf, and completing OAuth or source-system login is out of scope during onboarding setup: implementation proceeds without live source connections, and each missing connection becomes a typed readiness warning plus an unresolved-source-connection entry in the final report — never fabricated data.
 
+## Signals are never submitted as live
+
+The rule above has a sharp consequence at setup time. A `live_verified` Signal posture claims a source connection has been proven, and during onboarding no such proof can exist — OAuth has not happened, and the Signal the connection would feed does not exist yet. The setup command refuses a `live_verified` posture before the approval card is created, naming each offending Signal and saying why.
+
+So: submit every Signal as `manual`, `imported_history`, or `not_connected`, whichever is true. Owner-accepted history stays `imported_history` — acceptance is not authorship. Then, once the company exists, connect each Signal's integration from that Signal's own page, which is the order the platform is built for. Record every one of those as a later action in the final report.
+
 ## What to prepare
 
 Before handing the owner a consent link, gather and present:
