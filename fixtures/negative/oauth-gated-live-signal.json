@@ -1,8 +1,8 @@
 {
-  "name": "mutable-slug-skill-pin",
+  "name": "oauth-gated-live-signal",
   "expect": "invalid",
-  "rejected_because": "unpinned_skill_reference:sales-pipeline",
-  "description": "A canonical flow whose setup plan references a published Skill by mutable slug alone, without a pinned version ID and content hash. Must be rejected, and must be rejected for THAT reason: everything else about the flow is correct.",
+  "rejected_because": "live_posture_at_setup:Pipeline value",
+  "description": "A setup plan submitting a Signal as live_verified while its source connection is still behind an OAuth consent the owner has not given. No such proof can exist at setup time, so the server refuses the posture before the approval card is created \u2014 per Signal, by name. Submit it as manual, imported_history or not_connected and connect the source from the Signal's own page afterwards.",
   "steps": [
     "inspect_local_business_files",
     "install_verify_cli",
@@ -31,9 +31,14 @@
     "fallback_reason": null,
     "reported_to_owner": true
   },
-  "skill_references": [
+  "signals": [
     {
-      "slug": "sales-pipeline"
+      "name": "Weekly revenue",
+      "posture": "manual"
+    },
+    {
+      "name": "Pipeline value",
+      "posture": "live_verified"
     }
   ]
 }

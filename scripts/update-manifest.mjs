@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const manifestPath = join(root, "skill-manifest.json");
 
-const ROOT_FILES = ["SKILL.md", "README.md", "LICENSE"];
+const ROOT_FILES = ["SKILL.md", "README.md", "CHANGELOG.md", "LICENSE"];
 const DIRS = ["references", "scripts", "fixtures", ".github/workflows"];
 
 function walk(dir) {

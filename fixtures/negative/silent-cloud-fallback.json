@@ -1,8 +1,8 @@
 {
-  "name": "mutable-slug-skill-pin",
+  "name": "silent-cloud-fallback",
   "expect": "invalid",
-  "rejected_because": "unpinned_skill_reference:sales-pipeline",
-  "description": "A canonical flow whose setup plan references a published Skill by mutable slug alone, without a pinned version ID and content hash. Must be rejected, and must be rejected for THAT reason: everything else about the flow is correct.",
+  "rejected_because": "silent_fallback:runner->cloud",
+  "description": "The worst failure this flow has. The AI Chief of Staff was configured on the Cloud lane after a Runner preference could not be served, the receipt carried a typed reason, and the run did not report it to the owner. Every other clause of this fixture is correct, so the rejection is exactly the silence.",
   "steps": [
     "inspect_local_business_files",
     "install_verify_cli",
@@ -26,14 +26,15 @@
     "activation": 1
   },
   "aicos_lane": {
-    "requested": "cloud",
+    "requested": "runner",
     "effective": "cloud",
-    "fallback_reason": null,
-    "reported_to_owner": true
+    "fallback_reason": "runner_setup_incomplete",
+    "reported_to_owner": false
   },
-  "skill_references": [
+  "signals": [
     {
-      "slug": "sales-pipeline"
+      "name": "Weekly revenue",
+      "posture": "manual"
     }
   ]
 }

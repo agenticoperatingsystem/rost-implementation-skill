@@ -1,6 +1,7 @@
 {
   "name": "invites-and-external-send",
   "expect": "invalid",
+  "rejected_because": "forbidden_step:invite_teammates",
   "description": "A canonical-looking flow that adds teammate invitations and an external communication. Must be rejected.",
   "steps": [
     "inspect_local_business_files",
@@ -8,6 +9,7 @@
     "obtain_implementation_access",
     "discover_schemas_references_capabilities",
     "read_onboarding_resume_state",
+    "prepare_runner_setup",
     "source_ingest",
     "construct_validate_setup_plan",
     "stage_setup_one_url",
@@ -24,5 +26,11 @@
   "approvals": {
     "setup": 1,
     "activation": 1
+  },
+  "aicos_lane": {
+    "requested": "cloud",
+    "effective": "cloud",
+    "fallback_reason": null,
+    "reported_to_owner": true
   }
 }

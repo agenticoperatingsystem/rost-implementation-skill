@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "name": "rost-implementation-skill",
-  "version": "v0.2.0",
+  "version": "v0.3.0",
   "repository": {
     "owner": "agenticoperatingsystem",
     "name": "rost-implementation-skill"
   },
   "protocol": {
     "skill": 1,
-    "minCli": "0.7.124",
+    "minCli": "0.7.174",
     "maxCli": null
   },
   "supportedClients": [
@@ -18,7 +18,7 @@
   ],
   "doctrine": {
     "guide": "rost-implementation-method",
-    "version": "2026-07-30.1"
+    "version": "2026-08-20.4"
   },
   "changelogUrl": "https://github.com/agenticoperatingsystem/rost-implementation-skill/releases",
   "files": [
@@ -27,32 +27,56 @@
       "sha256": "489ca821befce2b5f450e7c9b9316b5088bf77bf0f915b410325c9f13290b723"
     },
     {
+      "path": "CHANGELOG.md",
+      "sha256": "c830a24a3367a20bf7bdeeb05854538bc9347743ab4168a95e45b888fde2b4ba"
+    },
+    {
       "path": "LICENSE",
       "sha256": "07f4f0a506e2c740fcfeffe84ffb8ec1b2da6702789dcba9f9b04806f04cc8ac"
     },
     {
       "path": "README.md",
-      "sha256": "b94d7e2791b317a5bf78c403b63456d3ea457e7b6da4c50aebfa55b6dd77ab12"
+      "sha256": "f76f2016cbfda447213dd69019f40a7d4cf8b012e6854262c38cc98bc0e0fc26"
     },
     {
       "path": "SKILL.md",
-      "sha256": "2963b4f390336d5b72ee29bd76e8934546ef5ce60c9aec108e22e228c581f431"
+      "sha256": "ae24641991b767c54c15d9a90a748c06530f5c7f6352acb115a9723a7be47db1"
+    },
+    {
+      "path": "fixtures/negative/agent-enables-trusted-posture.json",
+      "sha256": "43ba16363b97fdb2ffa84a3fc7aab073731aa56fc4c5678a430fe9d16c17c486"
     },
     {
       "path": "fixtures/negative/invites-and-external-send.json",
-      "sha256": "fb2fc08df634592e2a56ed6c133056ec23f8138c585215698d6612ec80e38696"
+      "sha256": "f1095330f1a84bccfd75e34b0e05dedbc8ed56d9d3bc40060605a238496af846"
     },
     {
       "path": "fixtures/negative/multi-gate-recipe.json",
-      "sha256": "e075c6a8ef09f6e3c22a644f08ff97bfd14d38b48b9f68d60fe82cf65feced0c"
+      "sha256": "4e6e6c6cc5ac2172fa17b21619a8bcf329d6995a77783f35e35f4a88f5541e3f"
     },
     {
       "path": "fixtures/negative/mutable-slug-skill-pin.json",
-      "sha256": "bf20a82ab2f8488a7e2b3c9611fba6217a43cb1740477f6f5df86372936953ed"
+      "sha256": "1b8cbdebc0bbe17f1046e109931a3e0dc70237b9fb85a4992fdd109119cc87a6"
+    },
+    {
+      "path": "fixtures/negative/oauth-gated-live-signal.json",
+      "sha256": "63579e794190a35c3899553631e8e6942d5ae1995f1409ca5b7a59618ab322c3"
+    },
+    {
+      "path": "fixtures/negative/silent-cloud-fallback.json",
+      "sha256": "a5bd81cd5c3651eb1b83dfb10743a7936a4c6123f2165532225a9041b1f73a6c"
+    },
+    {
+      "path": "fixtures/positive/aicos-only.json",
+      "sha256": "fef35b6a53c8ad2c0b1dc36c20ee25bffc7212351608e286d18f78471e682a99"
     },
     {
       "path": "fixtures/positive/canonical-flow.json",
-      "sha256": "5cdbf235d9bf6647fab614ec87233034494599b626f50f60d7888a5c6f5704f8"
+      "sha256": "6e6bd792319328a0a85a46cd8de86d47dfae406784318be9f4cc7a2e0557d707"
+    },
+    {
+      "path": "fixtures/positive/cloud-fallback.json",
+      "sha256": "865f9db32563cbc56051baea195e05038b69bc59ad44c8125e05f9812d00ac25"
     },
     {
       "path": "references/conversation-grant-handoff.md",
@@ -60,31 +84,35 @@
     },
     {
       "path": "references/execution-loop.md",
-      "sha256": "9903cad93bae7f451958b3d36f1b892e2eff86d2408c316887129208d84d2cc0"
+      "sha256": "e374e2d21a1faf4d578813c3e2b636819b914535d2e563962a89371273ca9263"
     },
     {
       "path": "references/final-report.md",
-      "sha256": "448ed79b975539fbfa7c41b6f2945eafc44e956659452043885ae0b67c1232cd"
+      "sha256": "4d9418fddf276c26f4a18a3edd908a325febf169eebc4dab1e39273c40d3a39c"
     },
     {
       "path": "references/mode-behavior.md",
-      "sha256": "4da4be7aa0f10e848fc4e6268977f1d4defa48525689cf4e10af23a99228260a"
+      "sha256": "a8d20476b1c0c027843bbd2dd32ff1c758170151919be9a6f2af6492c750b603"
     },
     {
       "path": "references/oauth-handoff.md",
-      "sha256": "5325e9926067d4b1e7370e931ed5f26152602f51c72f51832a3bf65737190d45"
+      "sha256": "18cc3cb16972413bec0412c8522e8548cc063bd6b3f56f7fd9e09e95e6e0aa22"
+    },
+    {
+      "path": "references/runner-setup.md",
+      "sha256": "9ede3593c090df331de1e29317299bb5c92a76a90e53d7c0573227abb9c0cebf"
     },
     {
       "path": "scripts/check-install.sh",
-      "sha256": "ebb4476bbbf4eba7c6254940c530bab01a71b4d48431f1f8a5a429cdc67b86e6"
+      "sha256": "15c15685572169ac44211e355981ba04b39b86d9938805757ec371b6fbcf309d"
     },
     {
       "path": "scripts/update-manifest.mjs",
-      "sha256": "4621748f34f6b65ae546ea302b4fa9009f7d5edb6cbe372a52a80446bc4d301e"
+      "sha256": "89940d457e86498192aa478661469a73d1cc95d3c9a5973954e6ecf3f3c28754"
     },
     {
       "path": "scripts/validate-fixtures.mjs",
-      "sha256": "de5166ca7536859828faab5ae5b9cd92ea6899972684e9a03fca3f46bfde9ce9"
+      "sha256": "7d2469965576d9cdf0310da65843318861134c619a4a0900c992de929bc6dc47"
     }
   ]
 }

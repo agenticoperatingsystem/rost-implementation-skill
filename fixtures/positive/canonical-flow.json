@@ -1,13 +1,14 @@
 {
-  "name": "canonical-composite-flow",
+  "name": "canonical-composite-flow-runner-ready",
   "expect": "valid",
-  "description": "The exact fifteen-step composite onboarding flow: source ingest, one setup approval, receipt verification, rehearsal, one activation approval, completion.",
+  "description": "The canonical sixteen-step composite flow with a Runner-ready outcome: runner setup reaches ready and the one setup approval configures the AI Chief of Staff on the Runner LANE it preferred. That is a statement about the lane, not about the chief of staff being active on it \u2014 activation is decided from the rehearsal evidence for the lane it actually reached, so a run reports the activation state it observes and never promises runner-active-at-setup. The owner also takes the optional launch for the agents the plan left in draft.",
   "steps": [
     "inspect_local_business_files",
     "install_verify_cli",
     "obtain_implementation_access",
     "discover_schemas_references_capabilities",
     "read_onboarding_resume_state",
+    "prepare_runner_setup",
     "source_ingest",
     "construct_validate_setup_plan",
     "stage_setup_one_url",
@@ -23,6 +24,22 @@
     "setup": 1,
     "activation": 1
   },
+  "aicos_lane": {
+    "requested": "runner",
+    "effective": "runner",
+    "fallback_reason": null,
+    "reported_to_owner": true
+  },
+  "signals": [
+    {
+      "name": "Weekly revenue",
+      "posture": "manual"
+    },
+    {
+      "name": "Support backlog",
+      "posture": "imported_history"
+    }
+  ],
   "skill_references": [
     {
       "slug": "example-reporting-skill",

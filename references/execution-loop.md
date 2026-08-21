@@ -1,6 +1,6 @@
 # Execution loop
 
-This is the canonical composite implementation loop — steps 5 through 13 of the flow in SKILL.md, plus close-out (step 15). Bootstrap, implementation access, and discovery (steps 1–4) come first. Every command invocation is preceded by `rost command schema <id>`; never guess JSON shapes.
+This is the canonical composite implementation loop — steps 5 through 14 of the flow in SKILL.md, plus close-out (step 16). Bootstrap, implementation access, and discovery (steps 1–4) come first, and runner setup (step 6) has its own reference: [runner-setup.md](runner-setup.md). Every command invocation is preceded by `rost command schema <id>`; never guess JSON shapes.
 
 ## Resume before creating anything (step 5)
 
@@ -19,7 +19,7 @@ Inventory everything before proposing structure:
 
 Label every remembered or inferred fact as provisional until it is corroborated by current business evidence or accepted as an explicit owner assumption. Call `rost reference get implementation-evidence` for the evidence hierarchy.
 
-## Ingest sources (step 6)
+## Ingest sources (step 7)
 
 For each allowed local business source in the supplied workspace, call `onboarding.source_ingest`:
 
@@ -29,7 +29,7 @@ For each allowed local business source in the supplied workspace, call `onboardi
 - Uploads carry a server-derived hard access deadline (no later than 24 hours, and never beyond the live bootstrap bearer). Re-ingest rather than racing an expiry.
 - After successful application the raw bytes purge; durable surfaces keep only digests and counts, and status reads then show `payload_retained: false`. Do not depend on raw payload access after that point.
 
-## Construct one setup plan (step 7)
+## Construct one setup plan (step 8)
 
 Design the smallest legible operating model that fits the evidence, as one plan for the composite `onboarding.setup` command (schema via `rost command schema`): company name, source descriptors, per-family reconciliation entries, Compass, one active cycle, complete Seats (Charters and their sole permission manifests), staffing (owner occupancies and planned occupants), goals, Signals, readings, Frictions, initial Tasks, Sync Brief scope, agent configuration including Skills and schedules, and an optional managed-inference hard cap.
 
@@ -42,12 +42,15 @@ Validate locally before staging:
 - Every referenced published Skill is pinned to its exact version ID and content hash; never a mutable slug alone.
 - Schedules use canonical cron plus a canonical IANA timezone.
 - Include the managed-inference hard cap only as an explicit, visually distinct decision when the plan's managed-cloud projection requires one; never inferred or silently defaulted.
+- On a `schema_version: 2` plan, the AICOS block carries exactly the preferred lane, the runner brain, the `runner_setup_id` from step 6 (or null), and whether Cloud fallback is authorized. Submit only those; the server proves the tenant, owner, run relation and current state of the referenced setup, and refuses a foreign, expired or cancelled reference outright ([runner-setup.md](runner-setup.md)).
+- Every Signal carries a truthful posture: `manual`, `imported_history`, or `not_connected`. `live_verified` is refused before the approval card exists, naming each offending Signal — the connection that would prove a Signal live has to feed a Signal that already exists, and this setup is the thing creating it. Connect the integration from the Signal's own page after the company exists.
+- Imported history may be owner-accepted, and it stays `imported_history`. Acceptance is not authorship and never becomes a human-authored or live reading.
 - No invite, credential, secret, OAuth, external-message, or arbitrary-command content anywhere in the plan. Unknown fields fail.
 - For every imported family, record what was applied and what was skipped with a typed reason — context-only rows are skips, not silent drops.
 
 Prefer fewer, clearer objects over completeness theater.
 
-## Stage setup — one URL (step 8)
+## Stage setup — one URL (step 9)
 
 Stage `onboarding.setup` (CLI: `onboard setup`). The server preflights the strict schema, graphs, readiness, and budget state and returns a typed error list without creating entities; fix typed errors and restage.
 
@@ -55,7 +58,7 @@ When staging succeeds, give the human exactly one setup approval URL with its pe
 
 If you restage, the older card is superseded with durable lineage; point the human at the current card only.
 
-## Verify the setup receipt (step 9)
+## Verify the setup receipt (step 10)
 
 After the owner approves, verify with fresh reads (the setup-status read), never from memory:
 
@@ -64,9 +67,14 @@ After the owner approves, verify with fresh reads (the setup-status read), never
 - Blockers and warnings with nonzero checked counts. A zero denominator is unknown or failure, never a pass.
 - The logical-key-to-ID mapping while the purgeable run-scoped payload is retained; after purge, expect IDs, counts, and keyed digests plus `payload_retained: false`.
 
+- The AICOS binding, if the plan carried one: the requested lane, the effective lane, the typed `fallback_reason` when they differ, the preserved `runner_setup_id`, the rehearsal state, and whether the chief of staff is active or paused. Read all of it and report all of it — a Cloud-lane effective result under a Runner preference is a normal, resumable outcome, and describing it as anything else is the failure this flow guards hardest against.
+- Whether the chief of staff is paused. A paused AICOS carries a recovery item, and that item IS the setup decision demoted — never a second decision row. The company is still complete.
+
 Agents commit as `awaiting_rehearsal` with `dry_run_missing`. Do not claim any agent is execution-ready before a rehearsal exists.
 
-## Rehearse (step 10)
+The setup itself records onboarding as finished. Do not tell the owner the company is incomplete until agents are launched; it is not.
+
+## Rehearse (step 11)
 
 Run the run-bound `onboarding.rehearse` (CLI: `onboard rehearse`), bound to the setup application ID, the expected setup digest/revision, and its own idempotency key. The server runs exactly one sandbox rehearsal per receipt agent and returns complete immutable terminal evidence: per-agent terminal status, runtime run IDs, tool previews, manifest holds, errors, configuration digests, and the terminal rehearsal-batch receipt.
 
@@ -76,7 +84,9 @@ Run the run-bound `onboarding.rehearse` (CLI: `onboard rehearse`), bound to the 
 
 A failed rehearsal routes back to plan correction and restaging, never forward to activation.
 
-## Activate — once, one URL (step 11)
+## Launch the drafted agents — optional, once, one URL (step 12)
+
+This step is OPTIONAL, and skipping it is a complete outcome. It launches only the additional agents the plan left in draft; it does not create the company, and it does not mark onboarding complete — the setup already did both. Take it when the owner wants those agents live now; otherwise record the later-launch actions in the final report and stop.
 
 Invoke `onboarding.activate` (CLI: `onboard activate`) exactly once with:
 
@@ -88,19 +98,27 @@ Invoke `onboarding.activate` (CLI: `onboard activate`) exactly once with:
 
 Each array covers the exact agent set from the setup receipt with unique agent IDs — a missing, duplicate, or extra identity fails. Evidence from different rehearsal batches never combines into one activation.
 
-Give the human its one activation approval URL. On approval, one transaction rechecks freshness (runner, budget, sources, Steward chain, Skills, schedules), writes one composite human decision, takes every agent live, arms each disclosed schedule, and marks onboarding complete.
+Give the human its one launch approval URL. On approval, one transaction rechecks freshness (runner, budget, sources, Steward chain, Skills, schedules), writes one composite human decision, takes every agent live, and arms each disclosed schedule.
 
-## Verify activation (step 12)
+On a company carrying the Beta Trusted launch default, that same card also shows each agent's own authority review — what it may do unattended, what always asks, its connections, budget, and where to revoke — and approving it mints exactly one grant per agent inside the same transaction that makes it live, under that same decision. **There is no second approval and no separate Approvals card: the launch action is the one thing the owner does.** Never tell the owner to go to `/approvals` for it, and never stage anything extra "to be safe".
 
-Verify with fresh reads: agents live, schedules armed, the application `activated`, onboarding complete. If the committed response is lost, retry with the same key and digest to receive the original activation receipt — there is no third approval.
+## Verify the launch (step 13)
 
-## Bounded manual acceptance (step 13)
+Verify with fresh reads: agents live, schedules armed, the application `activated`. If the committed response is lost, retry with the same key and digest to receive the original launch receipt — there is no further approval. Step 12 and step 13 are taken together or not at all: launching without verifying is exactly the remembered-status claim this flow forbids.
+
+## Bounded manual acceptance (step 14)
 
 Where the owner authorized it, run bounded manual acceptance through the discovered run-now surface. Acceptance runs are `production_manual` and must say so — a production run never describes itself as a dry run. They require `execution_ready`, not merely lifecycle admission, and an implementation agent cannot self-approve a gated run.
 
-## Report and close (steps 14–15)
+## Report and close (steps 15–16)
 
 Produce the mandatory report in [final-report.md](final-report.md): evidence, costs, assumptions, warnings, and unresolved source connections. Then complete implementation access — or abandon it explicitly on a failed run — so the run-bound credential and any retained source bytes purge with the run. Never leave a live implementation credential behind.
+
+## Governance postures are prepared, never taken (any step)
+
+`aicos.trusted_beta.status`, `aicos.trusted_beta.enable`, and `aicos.trusted_beta.disable` are owner-only and human-only. This skill may READ the status — it is a read, and its review is what the owner needs in order to decide — and may prepare and present the decision. It may not enable or disable the posture, and it may not approve the confirmation that does. Prepare, hand over, return control.
+
+The same rule covers every confirmation this run stages: the implementation credential cannot approve its own proposal, and no message, transcript, or inference is a substitute for the owner's own act.
 
 ## Idempotency and contradiction handling
 
